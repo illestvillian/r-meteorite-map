@@ -2,6 +2,8 @@ library(dplyr)
 library(readr)
 library(leaflet)
 library(janitor)
+library(tidyr)
+library(shiny)
 
 final_meteorite_landings <- readRDS("meteorite_data.rds")
 
