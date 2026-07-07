@@ -4,6 +4,7 @@ library(leaflet)
 library(janitor)
 library(tidyr)
 library(shiny)
+library(leaflet.extras)
 
 meteorite_landings <- readRDS("meteorite_data.rds")
 
@@ -37,23 +38,22 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  
-  pal <- colorNumeric(palette = "RdBu", domain = final_meteorite_landings$mass)
+
   
   output$meteorite_map <- renderLeaflet({
+    pal <- colorNumeric(
+      palette = "magma", 
+      domain = log10(final_meteorite_landings$mass + 1)
+    )
     
     leaflet(final_meteorite_landings) %>%
       addProviderTiles(providers$CartoDB.DarkMatter) %>%
       addCircleMarkers(
-        lng = ~long, 
-        lat = ~lat, 
-        color = ~pal(mass), 
-        fillOpacity = 0.7,
-        radius = 5,
-        clusterOptions = markerClusterOptions(
-          spiderfyOnMaxZoom = TRUE,
-          disableClusteringAtZoom = 10
-        ),
+        lng = ~long, lat = ~lat,
+        radius = ~ifelse(mass > 10000, 8, 4), 
+        fillColor = ~pal(log10(mass + 1)), 
+        weight = 0.5,
+        fillOpacity = 0.8,
         popup = ~paste0("<b>", name, "</b><br/>", 
                         "Year: ", year, "<br/>", 
                         "Mass: ", display_mass)
