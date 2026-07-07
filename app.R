@@ -1,8 +1,9 @@
-library(tidyverse)
-library(janitor)
+library(dplyr)
+library(readr)
 library(leaflet)
+library(janitor)
 
-meteorite_landings <- read_csv('Meteorite_Landings.csv')
+final_meteorite_landings <- readRDS("meteorite_data.rds")
 
 final_meteorite_landings <- meteorite_landings %>% janitor::clean_names() %>% 
   select(id, name, mass=mass_g, year, lat=reclat, long=reclong) %>%
