@@ -5,10 +5,18 @@ library(janitor)
 library(tidyr)
 library(shiny)
 
-final_meteorite_landings <- readRDS("meteorite_data.rds")
+meteorite_landings <- readRDS("meteorite_data.rds")
 
-final_meteorite_landings <- meteorite_landings %>% janitor::clean_names() %>% 
-  select(id, name, mass=mass_g, year, lat=reclat, long=reclong) %>%
+final_meteorite_landings <- meteorite_landings %>% 
+  janitor::clean_names() %>% 
+  select(
+    id, 
+    name, 
+    mass,
+    year, 
+    lat, 
+    long
+  ) %>%
   drop_na(name, year, mass, lat, long) %>%
   filter(lat !=0 & long !=0) %>%
   mutate(
