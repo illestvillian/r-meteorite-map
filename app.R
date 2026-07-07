@@ -17,8 +17,6 @@ final_meteorite_landings <- meteorite_landings %>% janitor::clean_names() %>%
     )
   )
 
-
-
 ui <- fluidPage(
   titlePanel("Meteorite Landings Explorer"),
   mainPanel(
